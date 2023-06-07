@@ -1,4 +1,4 @@
-import asyncio
+import asyncio, os, time
 from playwright.async_api import async_playwright, TimeoutError as PTimeoutError
 
 cookies = {
@@ -49,27 +49,20 @@ headers = {
 
 async def midas():
     async with async_playwright() as p:
-        browser = await p.chromium.launch(
-            headless=False
-            # ,proxy={
-            #     'server': 'p.webshare.io:80',
-            #     'username': 'bolilrvp-rotate',
-            #     'password': 'o7kh4c60uckk'
-            # }
-            # ,proxy={
-            #     'server': 'tr.smartproxy.com:40002',
-            #     'username': 'sp07531016',
-            #     'password': 'S4SDtmueuSaaf38ck9'
-            # }
-        )
-        device = p.devices["Desktop Chrome HiDPI"]
+        try:
+            browser = p.chromium.connect_over_cdp("http://localhost:8989")#, headless=False)
+        except:
+            os.system("chromium --remote-debugging-port=8989 &")
+            time.sleep(5)
+            browser = p.chromium.connect_over_cdp("http://localhost:8989")
+        # device = p.devices["Desktop Chrome HiDPI"]
         context = await browser.new_context(
             # locale='en-TR',
             # geolocation={'longitude': 28.9784, 'latitude': 41.0082},
             # timezone_id="Europe/Istanbul",
             # permissions=['geolocation'],
             # extra_http_headers=headers,
-            **device
+            # **device
         )
         await context.add_cookies([{"name":x, "value":cookies[x], "url":"https://www.midasbuy.com/"} for x in cookies])
         page = await context.new_page()
