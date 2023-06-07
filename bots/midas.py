@@ -51,11 +51,11 @@ async def midas():
     async with async_playwright() as p:
         browser = await p.chromium.launch(
             headless=False
-            ,proxy={
-                'server': 'p.webshare.io:80',
-                'username': 'bolilrvp-rotate',
-                'password': 'o7kh4c60uckk'
-            }
+            # ,proxy={
+            #     'server': 'p.webshare.io:80',
+            #     'username': 'bolilrvp-rotate',
+            #     'password': 'o7kh4c60uckk'
+            # }
             # ,proxy={
             #     'server': 'tr.smartproxy.com:40002',
             #     'username': 'sp07531016',
@@ -64,10 +64,10 @@ async def midas():
         )
         device = p.devices["Desktop Chrome HiDPI"]
         context = await browser.new_context(
-            locale='en-TR',
-            geolocation={'longitude': 28.9784, 'latitude': 41.0082},
-            timezone_id="Europe/Istanbul",
-            permissions=['geolocation'],
+            # locale='en-TR',
+            # geolocation={'longitude': 28.9784, 'latitude': 41.0082},
+            # timezone_id="Europe/Istanbul",
+            # permissions=['geolocation'],
             # extra_http_headers=headers,
             **device
         )
