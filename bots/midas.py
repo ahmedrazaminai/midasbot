@@ -49,12 +49,15 @@ headers = {
 
 async def midas():
     async with async_playwright() as p:
-        try:
-            browser = await p.chromium.connect_over_cdp("http://localhost:8989")#, headless=False)
-        except:
-            os.system("start chrome --remote-debugging-port=8989 &")
-            time.sleep(5)
-            browser = await p.chromium.connect_over_cdp("http://localhost:8989")
+        browser = await p.chromium.launch(
+            headless=False
+        )
+        # try:
+        #     browser = await p.chromium.connect_over_cdp("http://localhost:8989")#, headless=False)
+        # except:
+        #     os.system("start chrome --remote-debugging-port=8989 &")
+        #     time.sleep(5)
+        #     browser = await p.chromium.connect_over_cdp("http://localhost:8989")
         # device = p.devices["Desktop Chrome HiDPI"]
         context = await browser.new_context(
             # locale='en-TR',
@@ -64,7 +67,7 @@ async def midas():
             # extra_http_headers=headers,
             # **device
         )
-        await context.add_cookies([{"name":x, "value":cookies[x], "url":"https://www.midasbuy.com/"} for x in cookies])
+        # await context.add_cookies([{"name":x, "value":cookies[x], "url":"https://www.midasbuy.com/"} for x in cookies])
         page = await context.new_page()
         try:
             await page.goto('https://www.midasbuy.com/tr/buy/pubgm', timeout=1)
