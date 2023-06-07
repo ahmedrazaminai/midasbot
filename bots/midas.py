@@ -60,14 +60,7 @@ async def midas():
             browser = await p.chromium.connect_over_cdp("http://localhost:8989")
         # device = p.devices["Desktop Chrome HiDPI"]
         context = await browser.new_context(
-            # locale='en-TR',
-            # geolocation={'longitude': 28.9784, 'latitude': 41.0082},
-            # timezone_id="Europe/Istanbul",
-            # permissions=['geolocation'],
-            # extra_http_headers=headers,
-            # **device
         )
-        # await context.add_cookies([{"name":x, "value":cookies[x], "url":"https://www.midasbuy.com/"} for x in cookies])
         page = await context.new_page()
         try:
             await page.goto('https://www.midasbuy.com/midasbuy/tr/', timeout=1)
