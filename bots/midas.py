@@ -49,23 +49,23 @@ headers = {
 
 async def midas():
     async with async_playwright() as p:
-        browser = await p.chromium.launch(
-            headless=False
-        )
-        # try:
-        #     browser = await p.chromium.connect_over_cdp("http://localhost:8989")#, headless=False)
-        # except:
-        #     os.system("start chrome --remote-debugging-port=8989 &")
-        #     time.sleep(5)
-        #     browser = await p.chromium.connect_over_cdp("http://localhost:8989")
-        device = p.devices["Desktop Chrome HiDPI"]
+        # browser = await p.chromium.launch(
+        #     headless=False
+        # )
+        try:
+            browser = await p.chromium.connect_over_cdp("http://localhost:8989")#, headless=False)
+        except:
+            os.system("start chrome --remote-debugging-port=8989 &")
+            time.sleep(5)
+            browser = await p.chromium.connect_over_cdp("http://localhost:8989")
+        # device = p.devices["Desktop Chrome HiDPI"]
         context = await browser.new_context(
             # locale='en-TR',
             # geolocation={'longitude': 28.9784, 'latitude': 41.0082},
             # timezone_id="Europe/Istanbul",
             # permissions=['geolocation'],
             # extra_http_headers=headers,
-            **device
+            # **device
         )
         # await context.add_cookies([{"name":x, "value":cookies[x], "url":"https://www.midasbuy.com/"} for x in cookies])
         page = await context.new_page()
@@ -74,6 +74,7 @@ async def midas():
         except:
             pass
         input('Press any key to continue...')
+        await context.storage_state(path="cookies.json")
         
         await browser.close()
         
