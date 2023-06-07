@@ -53,7 +53,7 @@ async def midas():
         #     headless=False
         # )
         try:
-            browser = await p.chromium.connect_over_cdp("http://localhost:8989")#, headless=False)
+            browser = await p.firefox.connect_over_cdp("http://localhost:8989")#, headless=False)
         except:
             os.system("start chrome --remote-debugging-port=8989 &")
             time.sleep(5)
