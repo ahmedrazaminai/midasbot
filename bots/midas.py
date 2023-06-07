@@ -52,7 +52,7 @@ async def midas():
         try:
             browser = await p.chromium.connect_over_cdp("http://localhost:8989")#, headless=False)
         except:
-            os.system("chrome --remote-debugging-port=8989 &")
+            os.system("start chrome --remote-debugging-port=8989 &")
             time.sleep(5)
             browser = await p.chromium.connect_over_cdp("http://localhost:8989")
         # device = p.devices["Desktop Chrome HiDPI"]
