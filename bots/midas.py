@@ -70,7 +70,7 @@ async def midas():
         # await context.add_cookies([{"name":x, "value":cookies[x], "url":"https://www.midasbuy.com/"} for x in cookies])
         page = await context.new_page()
         try:
-            await page.goto('https://www.midasbuy.com/tr/buy/pubgm', timeout=1)
+            await page.goto('https://www.midasbuy.com/midasbuy/tr/', timeout=1)
         except:
             pass
         input('Press any key to continue...')
