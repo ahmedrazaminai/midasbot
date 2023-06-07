@@ -59,15 +59,15 @@ async def midas():
             time.sleep(5)
             browser = await p.chromium.connect_over_cdp("http://localhost:8989")
         # device = p.devices["Desktop Chrome HiDPI"]
-        context = await browser.new_context(
-        )
-        page = await context.new_page()
+        # context = await browser.new_context(
+        # )
+        page = await browser.new_page()
         try:
             await page.goto('https://www.midasbuy.com/midasbuy/tr/', timeout=1)
         except:
             pass
         input('Press any key to continue...')
-        await context.storage_state(path="cookies.json")
+        # await context.storage_state(path="cookies.json")
         
         await browser.close()
         
