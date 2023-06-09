@@ -1,0 +1,19 @@
+{
+  "name": "Gettin started example",
+  "description": "i build a example for getting started",
+  "version": "1.0.0",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "js/background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://*.docker.com/*"],
+      "js": ["js/contentScript.js"]
+    }
+  ],
+  "permissions": ["storage", "activeTab", "scripting"],
+  "action": {
+    "default_popup": "html/popup.html"
+  }
+}
