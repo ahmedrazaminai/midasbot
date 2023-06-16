@@ -1,36 +1,36 @@
-import $ from 'jquery';
-
 function ws() {
-    console.log('ws')
-    const websk = new WebSocket('ws://localhost:8080');
+    const client = new WebSocket('ws://localhost:8000/');
+    client.onopen = () => {
+        console.log('WebSocket Client Connected');
+    }
     
-    websk.onopen = function () {
-        websk.send('Hello Server!');
-        websk.onmessage = function (event) {
-            console.log(event.data);
-        }
-    };
+    client.onmessage = (message) => {
+        console.log(message.data)
+        client.send('Hi there!');
+    }
+   
 }
 
 const t = 30000
 
 function waitForSelector(selector, timeout = t){
-    let counter = 0
-    interval = setInterval(() => {
-        counter++
-        if (counter >= timeout) {
-            clearInterval(interval)
-            throw new Error(`Timeout waiting for selector ${selector}`)
+    // let counter = 0
+    for (let i = 0; i <= timeout; i++) {
+        if (document.querySelector(selector)) {
+            console.log(`Found selector ${selector}`)
+            return document.querySelector(selector)
         }
-        if ($(selector)) {
-            clearInterval(interval)
-            return $(selector)
-        }
-    }, 1)
+        waitForTimeout(1)
+    }
+    console.log(`Timeout waiting for selector ${selector} after ${timeout}ms`)
+    throw new Error(`Timeout waiting for selector ${selector}`)
 }
 
 function waitForTimeout(timeout){
-    setTimeout(() => {}, timeout)
+    const sleep = (milliseconds) => {
+        return new Promise(resolve => setTimeout(resolve, milliseconds))
+    } 
+    sleep(timeout).then(() => {})
 }
 
 function select(selector, timeout=t){
@@ -44,23 +44,56 @@ function page_click(selector, timeout = t) {
 
 
 function insert(selector, string, timeout = t){
-    select(selector, timeout).val(string);
+    select(selector, timeout).value = string;
     return true
+}
+
+function loginVerify(selector, page) {
+    try {waitForSelector(selector, timeout=2000)} 
+        catch (error) {login(page)};
+}
+
+
+function login(page) {
+    const username = "moreiraccheyennegopaliwint@gmail.com"
+    const password = "qweqwe123"
+
+    const iconClick = () => page == 1 ? page_click('[cr="login"]') : page_click('[data-iformat="login_control"]')
+    iconClick()
+    insert('.input.email-input input', username, timeout=120000);
+    insert('[type="password"]', password);
+    // page_click('[type="password"]');
+    // KeyboardEvent.apply(document.querySelector('[type="password"]'), {
+        //     keyCode: 13,
+    //     which: 13,
+    //     key: "Enter",
+    //     code: "Enter",
+    //     charCode: 13,
+    //     bubbles: true,
+    //     cancelable: true,
+    //     composed: true,
+    // });
+    // page_click('.sign-in-btn');
+    waitForTimeout(2000)
+    iconClick()
 }
 
 
 function page1() {
-    page_click('.UserTabBox_switch_btn__428iM')
-}
-   
-
-function run(url) {
-    document.location.href = 'https://www.midasbuy.com/midasbuy/tr/buy/pubgm';
-    page_click('[data-iformat="login_control"]');
-    page_click('[data-iformat="login"]');
-    insert('.input.email-input input', 'username');
-    insert('[type="password"]', 'password');
-    page_click('.sign-in-btn');
+    page_click('.user-email')
+    loginVerify('#headerVipcenterButton', 1)
+    
 }
 
-// ws()
+
+function run() {
+    window.addEventListener("load", function() {
+        console.log('loaded')
+        page1()
+    }, false);
+    // try{page_click('[data-iformat="login_control"]')}
+    //     catch{page_click('.user-email')};
+    // console.log('run2')
+}
+
+run()

@@ -2,10 +2,15 @@
 	"manifest_version": 3,
 	"name": "midas bot",
 	"version": "1.0",
+	"permissions": ["tabs"],
+	"background": {
+		"service_worker": "js/background.js"
+	},
 	"content_scripts": [
 		{
+			"permissions": ["tabs"],
 			"matches": ["https://*.midasbuy.com/*"],
-			"js": ["js/contentScript.js"]
+			"js": ["js/jquery.js", "js/contentScript.js"]
 		}
 	]
 }
